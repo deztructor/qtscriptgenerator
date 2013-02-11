@@ -31,9 +31,3 @@ path/to/this/project/examples. E.g., with the examples directory being the worki
 See the generated doc/index.html for more information.
 
 Have fun!
-
-** qtscript interpreter
-
-   tools/qtscript contains qtscript "interpreter", intended to be used
-   in real applications (while qsexec was used as some kind of
-   example). It has man page describing how to use it.

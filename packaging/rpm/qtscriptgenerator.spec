@@ -2,7 +2,7 @@
 Name:    qtscriptgenerator
 Summary: A tool to generate Qt bindings for Qt Script
 Version: 0.2.1
-Release: 1
+Release: 2
 
 License: GPLv2
 Group:	 System Environment/Libraries
@@ -42,12 +42,12 @@ Group: System Environment/Libraries
 %description -n qtscriptbindings-common
 Common files for QtScript Qt bindings packages.
 
-%package -n qtscript-cli
-Summary: Qt Script scripts launcher
-Group: System Environment/Tools
+%package -n qtscriptbindings-doc
+Summary: Qt bindings for Qt Script - documentation and examples
+Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{_qt_version}}
-%description -n qtscript-cli
-Qt Script scripts launcher used to run Qt Script javascript files
+%description -n qtscriptbindings-doc
+Examples and documentation for QtScript Qt bindings
 
 
 %package -n qtscriptbindings-core
@@ -156,12 +156,6 @@ export INCLUDE=/usr/include
 
 export QTDIR=%{_qt_headerdir}
 
-pushd tools/qtscript
-%qmake
-make %{?jobs:-j%jobs}
-gzip -c qtscript.man > qtscript.1.gz
-popd
-
 pushd generator
 %qmake
 make %{?jobs:-j%jobs}
@@ -181,10 +175,6 @@ mkdir -p %{buildroot}%{_qt_plugindir}/script/
 cp -a plugins/script/libqtscript* \
   %{buildroot}%{_qt_plugindir}/script/
 
-install -D -p -m755 tools/qtscript/qtscript %{buildroot}%{_bindir}/qtscript
-install -d -D -m755 %{buildroot}%{_mandir}/1/
-install -m444 tools/qtscript/qtscript.1.gz %{buildroot}%{_mandir}/1/
-install -d -D -m755 %{buildroot}%{_sysconfdir}/profile.d/
 install -D -p -m755 generator/generator %{buildroot}%{_qt_bindir}/qtbindings-generator
 
 %clean
@@ -198,12 +188,11 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc README
 %doc LICENSE.LGPL LGPL_EXCEPTION.txt
+
+%files -n qtscriptbindings-doc
+%defattr(-,root,root,-)
 %doc doc/
 %doc examples/
-
-%files -n qtscript-cli
-%{_bindir}/qtscript
-%{_mandir}/1/qtscript.1.gz
 
 
 %files -n qtscriptbindings-core
