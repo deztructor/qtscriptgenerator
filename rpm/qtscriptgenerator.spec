@@ -32,7 +32,7 @@ BuildRequires: pkgconfig(QtXmlPatterns)
 
 # not strictly required, but the expectation would be for the
 # bindings to be present
-Requires: qtscriptbindings = %{version}-%{release}
+Requires: qtscriptbindings-common = %{version}-%{release}
 
 %description
 Qt Script Generator is a tool to generate Qt bindings for Qt Script.
