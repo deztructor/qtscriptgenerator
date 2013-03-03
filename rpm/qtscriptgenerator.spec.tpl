@@ -8,6 +8,8 @@ License: GPLv2
 Group:	 System Environment/Libraries
 URL:     http://github.com/deztructor/qtscriptgenerator
 Source0: qtscriptgenerator-%{version}.tar.bz2
+Source1: qtscriptgenerator.spec.tpl
+Source2: generate-spec.py
 BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Patch0: qtscriptgenerator-src-0.1.0-qmake_target.path.patch
