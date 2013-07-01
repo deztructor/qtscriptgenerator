@@ -616,8 +616,8 @@ static void writeConstructorForwarding(QTextStream &stream,
     stream << "/** signatures:" << endl;
     foreach (const AbstractMetaFunction *fun, functions) {
         stream << " *     " << fun->signature() << endl;
-    } 
-    stream << " */" << endl; 
+    }
+    stream << " */" << endl;
 #endif
 
     if (/*meta_class->isAbstract() ||*/ (functions.size() == 0)) {
@@ -1013,7 +1013,7 @@ static void writeEnumClass(QTextStream &stream, const AbstractMetaClass *meta_cl
            << "{" << endl
            << "    QVariant thisObj = context->thisObject().toVariant();" << endl
            << "    QVariant otherObj = context->argument(0).toVariant();" << endl
-           
+
            << "    return QScriptValue(engine, ((thisObj.userType() == otherObj.userType()) &&" << endl
            << "                                 (thisObj.value<" << qualifiedFlagsName << ">() == otherObj.value<" << qualifiedFlagsName << ">())));" << endl
            << "}" << endl << endl;
@@ -1052,7 +1052,8 @@ void maybeDeclareMetaType(QTextStream &stream, const QString &typeName,
     if (name.contains(QLatin1Char(','))) {
         // need to expand the Q_DECLARE_METATYPE macro manually,
         // otherwise the compiler will choke
-        stream << "template <> \\" << endl
+        stream << "#if QT_VERSION < 0x050000" << endl
+               << "template <> \\" << endl
                << "struct QMetaTypeId< " << name << " > \\" << endl
                << "{ \\" << endl
                << "    enum { Defined = 1 }; \\" << endl
@@ -1063,7 +1064,23 @@ void maybeDeclareMetaType(QTextStream &stream, const QString &typeName,
                << "            metatype_id = qRegisterMetaType< " << name << " >(\"" << name << "\"); \\" << endl
                << "        return metatype_id; \\" << endl
                << "    } \\" << endl
-               << "};" << endl;
+               << "};" << endl
+               << "#else // QT_VERSION < 0x050000" << endl
+               << "template <> \\" << endl
+               << "struct QMetaTypeId< " << name << " >" << endl
+               << "{" << endl
+               << "    enum { Defined = 1 };" << endl
+               << "    static int qt_metatype_id()" << endl
+               << "    {" << endl
+               << "        static QBasicAtomicInt metatype_id = Q_BASIC_ATOMIC_INITIALIZER(0);" << endl
+               << "        if (const int id = metatype_id.loadAcquire())" << endl
+               << "            return id;" << endl
+               << "        const int newId = qRegisterMetaType< " << name << " >(\"" << name << "\", reinterpret_cast< " << name << " *>(quintptr(-1)));" << endl
+               << "        metatype_id.storeRelease(newId);" << endl
+               << "        return newId;" << endl
+               << "    }" << endl
+               << "};" << endl
+               << "#endif" << endl;
     } else {
         stream << "Q_DECLARE_METATYPE(" << name << ")" << endl;
     }
@@ -1142,17 +1159,30 @@ void declareEnumMetaTypes(QTextStream &stream, const AbstractMetaClass *meta_cla
         const AbstractMetaEnum *enom = enums.at(i);
         if (shouldIgnoreEnum(enom))
             continue;
-        if (meta_class->name() == "Global")
-            maybeDeclareMetaType(stream, enom->name(), registeredTypeNames);
-        else
-            maybeDeclareMetaType(stream, QString::fromLatin1("%0::%1")
-                                 .arg(meta_class->qualifiedCppName()).arg(enom->name()),
-                                 registeredTypeNames);
+        QString name;
+        if (meta_class->name() == "Global") {
+            name = enom->name();
+        }
+        else {
+            name = QString::fromLatin1("%0::%1").arg(meta_class->qualifiedCppName()).arg(enom->name());
+        }
+
+        if (!enom->typeEntry()->known()) {
+            maybeDeclareMetaType(stream, name, registeredTypeNames);
+        }
+        else {
+            registeredTypeNames << name;
+        }
+
         FlagsTypeEntry *flags = enom->typeEntry()->flags();
         if (flags) {
-            maybeDeclareMetaType(stream, QString::fromLatin1("QFlags<%0::%1>")
-                                 .arg(meta_class->qualifiedCppName()).arg(enom->name()),
-                                 registeredTypeNames);
+            name = QString::fromLatin1("QFlags<%0::%1>").arg(meta_class->qualifiedCppName()).arg(enom->name());
+            if (!flags->known()) {
+                maybeDeclareMetaType(stream, name, registeredTypeNames);
+            }
+            else {
+                registeredTypeNames << name;
+            }
         }
     }
 }
@@ -1178,8 +1208,8 @@ static void writeFunctionForwarding(QTextStream &stream, const AbstractMetaClass
     stream << "/** signatures:" << endl;
     foreach (const AbstractMetaFunction *fun, functions) {
         stream << " *     " << fun->signature() << endl;
-    } 
-    stream << " */" << endl; 
+    }
+    stream << " */" << endl;
 #endif
     QMap<int, AbstractMetaFunctionList> argcToFunctions;
     argcToFunctions = createArgcToFunctionsMap(functions);
@@ -1266,7 +1296,7 @@ static void writePrototypeCall(QTextStream &s, const AbstractMetaClass *meta_cla
         s << ")";
 #endif
     s << ";" << endl
-      << "    if (!_q_self) {" << endl 
+      << "    if (!_q_self) {" << endl
       << "        return context->throwError(QScriptContext::TypeError," << endl
       << "            QString::fromLatin1(\"" << meta_class->name()
       << ".%0(): this object is not a " << meta_class->name() << "\")" << endl

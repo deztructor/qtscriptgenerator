@@ -4,6 +4,7 @@
 
     <enum-type name="QWebSettings::FontFamily"/>
     <enum-type name="QWebSettings::FontSize"/>
+    <enum-type name="QWebSettings::ThirdPartyCookiePolicy"/>
     <enum-type name="QWebSettings::WebGraphic"/>
     <enum-type name="QWebSettings::WebAttribute">
         <reject-enum-value name="LocalStorageEnabled"/>
@@ -93,7 +94,11 @@
     <object-type name="QWebInspector"/>
 
     <value-type name="QWebPluginInfo"/>
-    <value-type name="QWebElement"/>
+    <value-type name="QWebElement">
+        <extra-includes>
+            <include file-name="QWebFrame" location="global"/>
+        </extra-includes>
+    </value-type>
     <value-type name="QWebPluginFactory::Plugin"/>
     <value-type name="QWebPluginFactory::MimeType"/>
 <!-- QtScript: disabled until we can support custom constructor -->
