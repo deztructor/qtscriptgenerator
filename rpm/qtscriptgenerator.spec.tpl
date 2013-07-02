@@ -1,5 +1,5 @@
 
-Name:    qtscriptgenerator
+Name:    qtscriptgenerator@@suffix@@
 Summary: A tool to generate Qt bindings for Qt Script
 Version: 0.2.4
 Release: 2
@@ -7,47 +7,39 @@ Release: 2
 License: GPLv2
 Group:	 System Environment/Libraries
 URL:     http://github.com/deztructor/qtscriptgenerator
-Source0: qtscriptgenerator-%{version}.tar.bz2
+Source0: %{name}-%{version}.tar.bz2
 Source1: qtscriptgenerator.spec.tpl
 Source2: generate-spec.py
-BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+#BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 Patch0: qtscriptgenerator-0.2.0-arm-ftbfs-float.patch
 
 # explictly BR libxslt, for xsltproc
 BuildRequires: libxslt
-# phonon bindings currently busted, see no_phonon patch
-#BuildRequires: pkgconfig(phonon)
-BuildRequires: pkgconfig(QtCore)
-BuildRequires: pkgconfig(QtGui)
-BuildRequires: pkgconfig(QtNetwork)
-BuildRequires: pkgconfig(QtOpenGL)
-BuildRequires: pkgconfig(QtSql)
-BuildRequires: pkgconfig(QtSvg)
-BuildRequires: pkgconfig(QtUiTools)
-BuildRequires: pkgconfig(QtWebKit)
-BuildRequires: pkgconfig(QtXml)
-BuildRequires: pkgconfig(QtXmlPatterns)
+BuildRequires: gdb
+@@deps@@
+
+%define my_qt_ver %{_qt@@ver@@_version}
 
 # not strictly required, but the expectation would be for the
 # bindings to be present
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings@@suffix@@-common = %{version}-%{release}
 
 %description
 Qt Script Generator is a tool to generate Qt bindings for Qt Script.
 
-%package -n qtscriptbindings-common
+%package -n qtscriptbindings@@suffix@@-common
 Summary: Qt bindings for Qt Script - common files
 Group: System Environment/Libraries
-%{?_qt:Requires: qt%{?_isa} >= %{_qt_version}}
-%description -n qtscriptbindings-common
+%{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
+%description -n qtscriptbindings@@suffix@@-common
 Common files for QtScript Qt bindings packages.
 
-%package -n qtscriptbindings-doc
+%package -n qtscriptbindings@@suffix@@-doc
 Summary: Qt bindings for Qt Script - documentation and examples
 Group: System Environment/Libraries
-%{?_qt:Requires: qt%{?_isa} >= %{_qt_version}}
-%description -n qtscriptbindings-doc
+%{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
+%description -n qtscriptbindings@@suffix@@-doc
 Examples and documentation for QtScript Qt bindings
 
 @@pkgs@@
@@ -65,42 +57,42 @@ Examples and documentation for QtScript Qt bindings
 # http://code.google.com/p/qtscriptgenerator/issues/detail?id=38
 export INCLUDE=/usr/include
 
-export QTDIR=%{_qt_headerdir}
+export QTDIR=%{_qt@@ver@@_headerdir}
 
 pushd generator
-%qmake
+%qmake@@ver@@
 make %{?jobs:-j%jobs}
-./generator --include-paths=%{_qt_headerdir}
+./generator --include-paths=%{_qt@@ver@@_headerdir}
 popd
 
 pushd qtbindings
-%qmake
+%qmake@@ver@@
 make %{?jobs:-j%jobs}
 popd
 
 %install
 rm -rf %{buildroot}
 
-mkdir -p %{buildroot}%{_qt_plugindir}/script/
+mkdir -p %{buildroot}%{_qt@@ver@@_plugindir}/script/
 # install doesn't do symlinks
 cp -a plugins/script/libqtscript* \
-  %{buildroot}%{_qt_plugindir}/script/
+  %{buildroot}%{_qt@@ver@@_plugindir}/script/
 
-install -D -p -m755 generator/generator %{buildroot}%{_qt_bindir}/qtbindings-generator
+install -D -p -m755 generator/generator %{buildroot}%{_qt@@ver@@_bindir}/qtbindings-generator
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_qt_bindir}/qtbindings-generator
+%{_qt@@ver@@_bindir}/qtbindings-generator
 
-%files -n qtscriptbindings-common
+%files -n qtscriptbindings@@suffix@@-common
 %defattr(-,root,root,-)
 %doc README
 %doc LICENSE.LGPL LGPL_EXCEPTION.txt
 
-%files -n qtscriptbindings-doc
+%files -n qtscriptbindings@@suffix@@-doc
 %defattr(-,root,root,-)
 %doc doc/
 %doc examples/
