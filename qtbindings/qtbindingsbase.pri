@@ -7,3 +7,4 @@ CONFIG      += debug_and_release plugin hide_symbols
 
 GENERATEDCPP = $$PWD/../generated_cpp
 TARGET       = $$qtLibraryTarget($$TARGET)
+target.path  = $$[QT_INSTALL_PLUGINS]/script
