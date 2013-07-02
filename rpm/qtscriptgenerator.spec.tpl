@@ -12,8 +12,7 @@ Source1: qtscriptgenerator.spec.tpl
 Source2: generate-spec.py
 #BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-Patch0: qtscriptgenerator-src-0.1.0-qmake_target.path.patch
-Patch1: qtscriptgenerator-0.2.0-arm-ftbfs-float.patch
+Patch0: qtscriptgenerator-0.2.0-arm-ftbfs-float.patch
 
 # explictly BR libxslt, for xsltproc
 BuildRequires: libxslt
@@ -48,10 +47,8 @@ Examples and documentation for QtScript Qt bindings
 %prep
 %setup -q -n %{name}-%{version}
 
-%patch0 -p1 -b .qmake_target.path
-
 %ifarch %{arm}
-%patch1 -p1 -b .arm_ftbfs_float
+%patch0 -p1 -b .arm_ftbfs_float
 %endif
 
 %build
