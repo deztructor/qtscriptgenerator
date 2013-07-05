@@ -987,7 +987,7 @@
   </value-type>
 
   <value-type name="QFontInfo" delete-in-main-thread="yes" expense-cost="1" expense-limit="1000">
-    <extra-includes>
+    <extra-includes qt="5">
       <include file-name="fontprivate.h" location="local"/>
     </extra-includes>
     <custom-constructor>
@@ -1300,7 +1300,7 @@
   </value-type>
 
   <value-type name="QFontMetricsF" delete-in-main-thread="yes" expense-cost="1" expense-limit="1000">
-    <extra-includes>
+    <extra-includes qt="5">
       <include file-name="fontprivate.h" location="local"/>
     </extra-includes>
     <custom-constructor>
@@ -1347,7 +1347,7 @@
    <value-type name="QTextOption::Tab"/>
 
   <value-type name="QFontMetrics" delete-in-main-thread="yes" expense-cost="1" expense-limit="1000">
-    <extra-includes>
+    <extra-includes qt="5">
       <include file-name="fontprivate.h" location="local"/>
     </extra-includes>
     <custom-constructor>
