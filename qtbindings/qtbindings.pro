@@ -11,3 +11,5 @@ SUBDIRS = qtscript_core \
 	  qtscript_xmlpatterns \
 	  qtscript_uitools \
 	  qs_eval
+
+# SUBDIRS += qtscript_phonon
