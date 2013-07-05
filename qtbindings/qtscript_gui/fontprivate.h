@@ -1,6 +1,8 @@
 #ifndef FONT_PRIVATE_H
 #define FONT_PRIVATE_H
 
+#if QT_VERSION >= 0x050000
+
 #include <QFont>
 #include <QFontInfo>
 #include <QFontMetrics>
@@ -109,5 +111,7 @@ inline QFontMetricsF qscriptvalue_cast<QFontMetricsF>(const QScriptValue &value)
 
     return QFontMetricsF(QFont());
 }
+
+#endif // QT_VERSION >= 0x050000
 
 #endif
