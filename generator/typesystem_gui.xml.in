@@ -533,7 +533,7 @@
 
   <value-type name="QTransform">
     <extra-includes>
-      <include file-name="QTouchDevice" location="global"/>
+      <include file-name="QTouchDevice" location="global" qt="5"/>
     </extra-includes>
     <modify-function signature="operator=(QTransform)" remove="all"/>
     <modify-function signature="map(int,int,int*,int*)const" remove="all"/>
