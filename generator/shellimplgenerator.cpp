@@ -187,12 +187,12 @@ void ShellImplGenerator::write(QTextStream &s, const AbstractMetaClass *meta_cla
             s << ");" << endl;
         }
 
-        s << "    } else {" << endl;
+        s << "    }" << endl;
 
         // call the script function
         if (args.size() > 0)
-            s << "        QScriptEngine *_q_engine = __qtscript_self.engine();" << endl;
-        s << "        ";
+            s << "    QScriptEngine *_q_engine = __qtscript_self.engine();" << endl;
+        s << "    ";
         if (fun->type()) {
             s << "return qscriptvalue_cast<";
             writeTypeInfo(s, fun->type());
@@ -201,12 +201,12 @@ void ShellImplGenerator::write(QTextStream &s, const AbstractMetaClass *meta_cla
         s << "_q_function.call(__qtscript_self";
         if (args.size() > 0) {
             s << "," << endl;
-            s << "            QScriptValueList()";
+            s << "        QScriptValueList()";
             int i = 0;
             for (int j = 0; j < args.size(); ++j) {
                 if (fun->argumentRemoved(j+1))
                     continue;
-                s << endl << "            << ";
+                s << endl << "        << ";
                 s << "qScriptValueFromValue(_q_engine, ";
                 AbstractMetaType *atype = args.at(j)->type();
                 QString asig = atype->cppSignature();
@@ -223,8 +223,6 @@ void ShellImplGenerator::write(QTextStream &s, const AbstractMetaClass *meta_cla
         if (fun->type())
             s << ")";
         s << ";" << endl;
-
-        s << "    }" << endl;
 
         s << "}" << endl << endl;
     }
