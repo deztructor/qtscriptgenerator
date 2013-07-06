@@ -8,6 +8,8 @@ mac:CONFIG -= app_bundle
 INCLUDEPATH += $$GENERATORPATH/.
 INCLUDEPATH += $$GENERATORPATH/../common
 
+system(./generate.sh $$QT_VERSION)
+
 unix:CONFIG += debug_and_release
 
 CONFIG += console
