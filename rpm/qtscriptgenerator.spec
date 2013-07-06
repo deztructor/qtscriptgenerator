@@ -12,8 +12,6 @@ Source1: qtscriptgenerator.spec.tpl
 Source2: generate-spec.py
 #BuildRoot: %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
-Patch0: qtscriptgenerator-0.2.0-arm-ftbfs-float.patch
-
 # explictly BR libxslt, for xsltproc
 BuildRequires: libxslt
 BuildRequires: gdb
@@ -148,10 +146,6 @@ from within Qt Script.
 
 %prep
 %setup -q -n %{name}-%{version}
-
-%ifarch %{arm}
-%patch0 -p1 -b .arm_ftbfs_float
-%endif
 
 %build
 
