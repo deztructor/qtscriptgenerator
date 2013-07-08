@@ -190,6 +190,9 @@ public:
     bool characters(const QString &ch);
 
 private:
+        bool processInclude(std::unique_ptr<StackElement> &, StackElement &
+                            , QHash<QString, QString>&);
+
     void fetchAttributeValues(const QString &name, const QXmlAttributes &atts,
                               QHash<QString, QString> *acceptedAttributes);
 
@@ -437,6 +440,47 @@ bool Handler::convertBoolean(const QString &_value, const QString &attributeName
     }
 }
 
+bool Handler::processInclude(std::unique_ptr<StackElement> &element
+                             , StackElement &topElement
+                             , QHash<QString, QString> &attributes)
+{
+    QString location = attributes["location"].toLower();
+
+    static QHash<QString, Include::IncludeType> locationNames;
+    if (locationNames.isEmpty()) {
+        locationNames["global"] = Include::IncludePath;
+        locationNames["local"] = Include::LocalPath;
+        locationNames["java"] = Include::TargetLangImport;
+    }
+
+    if (!locationNames.contains(location)) {
+        m_error = QString("Location not recognized: '%1'").arg(location);
+        return false;
+    }
+
+    Include::IncludeType loc = locationNames[location];
+    Include inc(loc, attributes["file-name"]);
+
+    ComplexTypeEntry *ctype = static_cast<ComplexTypeEntry *>(element->entry);
+    if (topElement.type & StackElement::ComplexTypeEntryMask) {
+        ctype->setInclude(inc);
+    } else if (topElement.type == StackElement::ExtraIncludes) {
+        ctype->addExtraInclude(inc);
+    } else {
+        m_error = "Only supported parents are complex types and extra-includes";
+        return false;
+    }
+
+    inc = ctype->include();
+    IncludeList lst = ctype->extraIncludes();
+    ctype = ctype->designatedInterface();
+    if (ctype != 0) {
+        ctype->setExtraIncludes(lst);
+        ctype->setInclude(inc);
+    }
+    return true;
+}
+
 bool Handler::startElement(const QString &, const QString &n,
                            const QString &, const QXmlAttributes &atts)
 {
@@ -445,7 +489,7 @@ bool Handler::startElement(const QString &, const QString &n,
         return importFileElement(atts);
     }
 
-    std::auto_ptr<StackElement> element(new StackElement(current));
+    std::unique_ptr<StackElement> element(new StackElement(current));
 
     if (!tagNames.contains(tagName)) {
         m_error = QString("Unknown tag name: '%1'").arg(tagName);
@@ -840,9 +884,7 @@ bool Handler::startElement(const QString &, const QString &n,
             }
             QString name = attributes["name"];
 
-            bool added = false;
             if (!name.isEmpty()) {
-                added = true;
                 m_current_enum->addEnumValueRejection(name);
             }
 
@@ -1334,42 +1376,8 @@ bool Handler::startElement(const QString &, const QString &n,
             }
             break;
         case StackElement::Include:
-            {
-                QString location = attributes["location"].toLower();
-
-                static QHash<QString, Include::IncludeType> locationNames;
-                if (locationNames.isEmpty()) {
-                    locationNames["global"] = Include::IncludePath;
-                    locationNames["local"] = Include::LocalPath;
-                    locationNames["java"] = Include::TargetLangImport;
-                }
-
-                if (!locationNames.contains(location)) {
-                    m_error = QString("Location not recognized: '%1'").arg(location);
-                    return false;
-                }
-
-                Include::IncludeType loc = locationNames[location];
-                Include inc(loc, attributes["file-name"]);
-
-                ComplexTypeEntry *ctype = static_cast<ComplexTypeEntry *>(element->entry);
-                if (topElement.type & StackElement::ComplexTypeEntryMask) {
-                    ctype->setInclude(inc);
-                } else if (topElement.type == StackElement::ExtraIncludes) {
-                    ctype->addExtraInclude(inc);
-                } else {
-                    m_error = "Only supported parents are complex types and extra-includes";
-                    return false;
-                }
-
-                inc = ctype->include();
-                IncludeList lst = ctype->extraIncludes();
-                ctype = ctype->designatedInterface();
-                if (ctype != 0) {
-                    ctype->setExtraIncludes(lst);
-                    ctype->setInclude(inc);
-                }
-            }
+                if (!processInclude(element, topElement, attributes))
+                return false;
             break;
         case StackElement::Rejection:
             {
