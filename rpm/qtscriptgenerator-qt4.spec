@@ -1,8 +1,7 @@
-
-Name:    qtscriptgenerator
+Name:    qtscriptgenerator-qt4
 Summary: A tool to generate Qt bindings for Qt Script
-Version: 0.2.4
-Release: 2
+Version: 0.0.0
+Release: 0
 
 License: GPLv2
 Group:	 System Environment/Libraries
@@ -15,6 +14,8 @@ Source2: generate-spec.py
 # explictly BR libxslt, for xsltproc
 BuildRequires: libxslt
 BuildRequires: gdb
+Provides: qtscriptgenerator = %{version}
+Obsoletes: qtscriptgenerator < 0.2.6
 
 # phonon bindings currently busted, see no_phonon patch
 #BuildRequires: pkgconfig(phonon)
@@ -34,113 +35,133 @@ BuildRequires: pkgconfig(QtXmlPatterns)
 
 # not strictly required, but the expectation would be for the
 # bindings to be present
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
 
 %description
 Qt Script Generator is a tool to generate Qt bindings for Qt Script.
 
-%package -n qtscriptbindings-common
+%package -n qtscriptbindings-qt4-common
 Summary: Qt bindings for Qt Script - common files
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-common
+%description -n qtscriptbindings-qt4-common
 Common files for QtScript Qt bindings packages.
 
-%package -n qtscriptbindings-doc
+%package -n qtscriptbindings-qt4-doc
 Summary: Qt bindings for Qt Script - documentation and examples
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-doc
+%description -n qtscriptbindings-qt4-doc
 Examples and documentation for QtScript Qt bindings
 
 
-%package -n qtscriptbindings-core
+%package -n qtscriptbindings-qt4-core
 Summary: Qt core bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-core
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-core
+%description -n qtscriptbindings-qt4-core
 Bindings providing access to core portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-gui
+%package -n qtscriptbindings-qt4-gui
 Summary: Qt gui bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-gui
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-gui
+%description -n qtscriptbindings-qt4-gui
 Bindings providing access to gui portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-network
+%package -n qtscriptbindings-qt4-network
 Summary: Qt network bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-network
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-network
+%description -n qtscriptbindings-qt4-network
 Bindings providing access to network portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-opengl
+%package -n qtscriptbindings-qt4-opengl
 Summary: Qt opengl bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-opengl
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-opengl
+%description -n qtscriptbindings-qt4-opengl
 Bindings providing access to opengl portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-sql
+%package -n qtscriptbindings-qt4-sql
 Summary: Qt sql bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-sql
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-sql
+%description -n qtscriptbindings-qt4-sql
 Bindings providing access to sql portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-svg
+%package -n qtscriptbindings-qt4-svg
 Summary: Qt svg bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-svg
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-svg
+%description -n qtscriptbindings-qt4-svg
 Bindings providing access to svg portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-uitools
+%package -n qtscriptbindings-qt4-uitools
 Summary: Qt uitools bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-uitools
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-uitools
+%description -n qtscriptbindings-qt4-uitools
 Bindings providing access to uitools portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-webkit
+%package -n qtscriptbindings-qt4-webkit
 Summary: Qt webkit bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-webkit
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-webkit
+%description -n qtscriptbindings-qt4-webkit
 Bindings providing access to webkit portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-xml
+%package -n qtscriptbindings-qt4-xml
 Summary: Qt xml bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-xml
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-xml
+%description -n qtscriptbindings-qt4-xml
 Bindings providing access to xml portions of the Qt API
 from within Qt Script.
 
-%package -n qtscriptbindings-xmlpatterns
+%package -n qtscriptbindings-qt4-xmlpatterns
 Summary: Qt xmlpatterns bindings for Qt Script
-Requires: qtscriptbindings-common = %{version}-%{release}
+Requires: qtscriptbindings-qt4-common = %{version}-%{release}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-xmlpatterns
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
-%description -n qtscriptbindings-xmlpatterns
+%description -n qtscriptbindings-qt4-xmlpatterns
 Bindings providing access to xmlpatterns portions of the Qt API
 from within Qt Script.
 
@@ -183,43 +204,43 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_qt_bindir}/qtbindings-generator
 
-%files -n qtscriptbindings-common
+%files -n qtscriptbindings-qt4-common
 %defattr(-,root,root,-)
 %doc README
 %doc LICENSE.LGPL LGPL_EXCEPTION.txt
 
-%files -n qtscriptbindings-doc
+%files -n qtscriptbindings-qt4-doc
 %defattr(-,root,root,-)
 %doc doc/
 %doc examples/
 
 
-%files -n qtscriptbindings-core
+%files -n qtscriptbindings-qt4-core
 %{_qt_plugindir}/script/libqtscript_core.so*
 
-%files -n qtscriptbindings-gui
+%files -n qtscriptbindings-qt4-gui
 %{_qt_plugindir}/script/libqtscript_gui.so*
 
-%files -n qtscriptbindings-network
+%files -n qtscriptbindings-qt4-network
 %{_qt_plugindir}/script/libqtscript_network.so*
 
-%files -n qtscriptbindings-opengl
+%files -n qtscriptbindings-qt4-opengl
 %{_qt_plugindir}/script/libqtscript_opengl.so*
 
-%files -n qtscriptbindings-sql
+%files -n qtscriptbindings-qt4-sql
 %{_qt_plugindir}/script/libqtscript_sql.so*
 
-%files -n qtscriptbindings-svg
+%files -n qtscriptbindings-qt4-svg
 %{_qt_plugindir}/script/libqtscript_svg.so*
 
-%files -n qtscriptbindings-uitools
+%files -n qtscriptbindings-qt4-uitools
 %{_qt_plugindir}/script/libqtscript_uitools.so*
 
-%files -n qtscriptbindings-webkit
+%files -n qtscriptbindings-qt4-webkit
 %{_qt_plugindir}/script/libqtscript_webkit.so*
 
-%files -n qtscriptbindings-xml
+%files -n qtscriptbindings-qt4-xml
 %{_qt_plugindir}/script/libqtscript_xml.so*
 
-%files -n qtscriptbindings-xmlpatterns
+%files -n qtscriptbindings-qt4-xmlpatterns
 %{_qt_plugindir}/script/libqtscript_xmlpatterns.so*

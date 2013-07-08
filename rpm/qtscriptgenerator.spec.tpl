@@ -1,8 +1,7 @@
-
 Name:    qtscriptgenerator@@suffix@@
 Summary: A tool to generate Qt bindings for Qt Script
-Version: 0.2.4
-Release: 2
+Version: 0.0.0
+Release: 0
 
 License: GPLv2
 Group:	 System Environment/Libraries
@@ -15,6 +14,8 @@ Source2: generate-spec.py
 # explictly BR libxslt, for xsltproc
 BuildRequires: libxslt
 BuildRequires: gdb
+Provides: qtscriptgenerator = %{version}
+Obsoletes: qtscriptgenerator < 0.2.6
 @@deps@@
 
 %define my_qt_ver %{_qt@@ver@@_version}

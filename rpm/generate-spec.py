@@ -7,6 +7,8 @@ pkg_tpl = '''
 %package -n qtscriptbindings@@suffix@@-{name}
 Summary: Qt {name} bindings for Qt Script
 Requires: qtscriptbindings@@suffix@@-common = %{{version}}-%{{release}}
+# for javascript packages independent on qt version
+Provides: qtscriptbindings-{name}
 Group: System Environment/Libraries
 %{{?_qt:Requires: qt%{{?_isa}} >= %{{my_qt_ver}}}}
 %description -n qtscriptbindings@@suffix@@-{name}
@@ -54,7 +56,7 @@ deps = { 'qt4' : deps_qt4
           , 'qt5' : deps_qt5
           }
 
-specs = { 'qt4' : 'qtscriptgenerator.{}'
+specs = { 'qt4' : 'qtscriptgenerator-qt4.{}'
           , 'qt5' : 'qtscriptgenerator-qt5.{}'
           }
 
@@ -65,7 +67,7 @@ def generate(lib) :
     pkg_templates = { 'files' : file_tpl, 'pkgs' : pkg_tpl }
     templates = { 'deps' : dep
                   , 'ver' : '5' if lib == 'qt5' else ''
-                  , 'suffix' : '-' + lib if lib == 'qt5' else '' }
+                  , 'suffix' : '-' + lib }
 
     def replaced(l):
         global packages
