@@ -15,7 +15,7 @@ Source2: generate-spec.py
 BuildRequires: libxslt
 BuildRequires: gdb
 Provides: qtscriptgenerator = %{version}
-Obsoletes: qtscriptgenerator < 0.2.6
+Obsoletes: qtscriptgenerator < 0.2.7
 
 BuildRequires: pkgconfig(Qt5Core)
 BuildRequires: pkgconfig(Qt5Gui)
@@ -45,6 +45,8 @@ Qt Script Generator is a tool to generate Qt bindings for Qt Script.
 Summary: Qt bindings for Qt Script - common files
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
+Provides: qtscriptbindings-common = %{version}
+Obsoletes: qtscriptbindings-common < 0.2.7
 %description -n qtscriptbindings-qt5-common
 Common files for QtScript Qt bindings packages.
 
@@ -52,6 +54,8 @@ Common files for QtScript Qt bindings packages.
 Summary: Qt bindings for Qt Script - documentation and examples
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
+Provides: qtscriptbindings-doc = %{version}
+Obsoletes: qtscriptbindings-doc < 0.2.7
 %description -n qtscriptbindings-qt5-doc
 Examples and documentation for QtScript Qt bindings
 
@@ -60,7 +64,8 @@ Examples and documentation for QtScript Qt bindings
 Summary: Qt core bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-core
+Provides: qtscriptbindings-core = %{version}
+Obsoletes: qtscriptbindings-core < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-core
@@ -71,7 +76,8 @@ from within Qt Script.
 Summary: Qt gui bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-gui
+Provides: qtscriptbindings-gui = %{version}
+Obsoletes: qtscriptbindings-gui < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-gui
@@ -82,7 +88,8 @@ from within Qt Script.
 Summary: Qt network bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-network
+Provides: qtscriptbindings-network = %{version}
+Obsoletes: qtscriptbindings-network < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-network
@@ -93,7 +100,8 @@ from within Qt Script.
 Summary: Qt opengl bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-opengl
+Provides: qtscriptbindings-opengl = %{version}
+Obsoletes: qtscriptbindings-opengl < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-opengl
@@ -104,7 +112,8 @@ from within Qt Script.
 Summary: Qt sql bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-sql
+Provides: qtscriptbindings-sql = %{version}
+Obsoletes: qtscriptbindings-sql < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-sql
@@ -115,7 +124,8 @@ from within Qt Script.
 Summary: Qt svg bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-svg
+Provides: qtscriptbindings-svg = %{version}
+Obsoletes: qtscriptbindings-svg < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-svg
@@ -126,7 +136,8 @@ from within Qt Script.
 Summary: Qt uitools bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-uitools
+Provides: qtscriptbindings-uitools = %{version}
+Obsoletes: qtscriptbindings-uitools < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-uitools
@@ -137,7 +148,8 @@ from within Qt Script.
 Summary: Qt webkit bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-webkit
+Provides: qtscriptbindings-webkit = %{version}
+Obsoletes: qtscriptbindings-webkit < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-webkit
@@ -148,7 +160,8 @@ from within Qt Script.
 Summary: Qt xml bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-xml
+Provides: qtscriptbindings-xml = %{version}
+Obsoletes: qtscriptbindings-xml < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-xml
@@ -159,7 +172,8 @@ from within Qt Script.
 Summary: Qt xmlpatterns bindings for Qt Script
 Requires: qtscriptbindings-qt5-common = %{version}-%{release}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-xmlpatterns
+Provides: qtscriptbindings-xmlpatterns = %{version}
+Obsoletes: qtscriptbindings-xmlpatterns < 0.2.7
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
 %description -n qtscriptbindings-qt5-xmlpatterns

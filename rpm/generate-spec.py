@@ -8,7 +8,8 @@ pkg_tpl = '''
 Summary: Qt {name} bindings for Qt Script
 Requires: qtscriptbindings@@suffix@@-common = %{{version}}-%{{release}}
 # for javascript packages independent on qt version
-Provides: qtscriptbindings-{name}
+Provides: qtscriptbindings-{name} = %{{version}}
+Obsoletes: qtscriptbindings-{name} < 0.2.7
 Group: System Environment/Libraries
 %{{?_qt:Requires: qt%{{?_isa}} >= %{{my_qt_ver}}}}
 %description -n qtscriptbindings@@suffix@@-{name}

@@ -15,7 +15,7 @@ Source2: generate-spec.py
 BuildRequires: libxslt
 BuildRequires: gdb
 Provides: qtscriptgenerator = %{version}
-Obsoletes: qtscriptgenerator < 0.2.6
+Obsoletes: qtscriptgenerator < 0.2.7
 @@deps@@
 
 %define my_qt_ver %{_qt@@ver@@_version}
@@ -31,6 +31,8 @@ Qt Script Generator is a tool to generate Qt bindings for Qt Script.
 Summary: Qt bindings for Qt Script - common files
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
+Provides: qtscriptbindings-common = %{version}
+Obsoletes: qtscriptbindings-common < 0.2.7
 %description -n qtscriptbindings@@suffix@@-common
 Common files for QtScript Qt bindings packages.
 
@@ -38,6 +40,8 @@ Common files for QtScript Qt bindings packages.
 Summary: Qt bindings for Qt Script - documentation and examples
 Group: System Environment/Libraries
 %{?_qt:Requires: qt%{?_isa} >= %{my_qt_ver}}
+Provides: qtscriptbindings-doc = %{version}
+Obsoletes: qtscriptbindings-doc < 0.2.7
 %description -n qtscriptbindings@@suffix@@-doc
 Examples and documentation for QtScript Qt bindings
 
